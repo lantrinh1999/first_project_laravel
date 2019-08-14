@@ -69,7 +69,7 @@ List category
 @endsection
 
 
-@section('datatable-category')
+@section('js')
 <script>
 
 $(function() {
@@ -110,12 +110,11 @@ $(function() {
             },
             { data: 'created_at', name: 'created_at' },
             {data: null, render: function ( data, type, row ) {
-                return `<a class="btn btn-xs btn-warning" value=`+data.id+` href="">Edit</a>
-                <a url="/admin/category/delete/`+data.id+`" class="btn btn-xs btn-danger btn-remove" href="javascript:;">Delete</a>`;
+                return `
+                <a class="btn btn-xs btn-warning" value=`+data.id+` href="/admin/category/edit/${data.id}">Edit</a>
+                <a url="/admin/category/delete/${data.id}" class="btn btn-xs btn-danger btn-remove" href="javascript:;">Delete</a>`;
                 } 
             },
-            
-            
         ]
     });
 

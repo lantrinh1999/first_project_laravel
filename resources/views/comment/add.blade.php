@@ -98,7 +98,7 @@ Edit user
 @endsection
 <a href=""></a>
 
-@section('add-user')
+@section('js')
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script>
     CKEDITOR.replace('editor');

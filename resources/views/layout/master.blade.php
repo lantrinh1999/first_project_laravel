@@ -61,9 +61,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script type="text/javascript" src="/js/ckfinder/ckfinder.js"></script>
         <script>CKFinder.config( { connectorPath: '/ckfinder/connector' } );</script>
         @include('ckfinder::setup')
-        @yield('datatable-product')
-        @yield('datatable-category')
-        @yield('add-product')
+        @yield('js')
     </body>
 
 </html>

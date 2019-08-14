@@ -67,7 +67,7 @@ List Product
 @endsection
 <a href=""></a>
 
-@section('datatable-product')
+@section('js')
 <script>
 
 $(function() {
@@ -102,9 +102,9 @@ $(function() {
       render: function ( data, type, row ) {
           
         return `
-        <a class="btn btn-xs btn-primary" value=`+data.id+` href="/admin/product/detail/`+data.id+`">View</a>
-        <a class="btn btn-xs btn-warning" value=`+data.id+` href="/admin/product/edit/`+data.id+`">Edit</a>
-        <a url="/admin/product/delete/`+data.id+`" class="btn btn-xs btn-danger btn-remove" href="javascript:;">Delete</a>`;
+        <a class="btn btn-xs btn-primary" href="/admin/product/detail/${data.id}">View</a>
+        <a class="btn btn-xs btn-warning" href="/admin/product/edit/${data.id}">Edit</a>
+        <a url="/admin/product/delete/${data.id}" class="btn btn-xs btn-danger btn-remove" href="javascript:;">Delete</a>`;
 
       } }
             

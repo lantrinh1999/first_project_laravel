@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use DataTables;
 
@@ -42,5 +43,41 @@ class CategoryController extends Controller
         }
 
         return $this->_data['categoriesDataTable'];
+    }
+
+    public function add()
+    {
+        $categories = $this->categoriesList(Category::all());
+        $this->_data['categories'] = $categories;
+
+        return view('category.add', $this->_data);
+    }
+
+    public function saveAdd(CategoryRequest $request)
+    {
+        // $parent_id = $request->parent_id;
+        $data = $request->except('_token');
+        // dd($data);
+        $check = Category::insert($data);
+        if ($check) {
+            return redirect()->route('admin.category.list')->with('success', 'Thêm sản phẩm thành công!');
+        } else {
+            return redirect()->route('admin.category.list')->with('error', 'Thêm sản phẩm no thành công!');
+        }
+    }
+
+    public function edit($id)
+    {
+        $category = Category::find($id);
+        // dd($product);
+        if (empty($category)) {
+            return redirect()->route('admin.category.list');
+        }
+
+        $this->_data['categories'] = $this->categoriesList(Category::all());
+        // dd($this->_data['categories']);
+        $this->_data['category'] = $category;
+
+        return view('category.add', $this->_data);
     }
 }

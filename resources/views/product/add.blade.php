@@ -133,7 +133,7 @@
 @endsection
 <a href=""></a>
 
-@section('add-product')
+@section('js')
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script> CKEDITOR.replace('editor'); </script>
 {{-- ******************************* --}}

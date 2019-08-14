@@ -45,7 +45,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::group(['prefix' => 'category', 'as' => 'category.'], function () {
         Route::get('list', 'CategoryController@index')->name('list');
         Route::get('data', 'CategoryController@listCategries')->name('data');
+        // them moi
         Route::get('add', 'CategoryController@add')->name('add');
+        Route::any('saveAdd', 'CategoryController@saveAdd')->name('saveAdd');
+        // sua
+        Route::get('edit/{id}', 'CategoryController@edit')->name('edit');
+        Route::any('saveEdit', 'CategoryController@saveEdit')->name('saveEdit');
+        // chi tiet
+        Route::any('detail/{id}', 'CategoryController@detail')->name('detail');
+        Route::any('postComment', 'CategoryController@postComment')->name('postComment');
+        // del
         Route::get('delete/{id}', 'CategoryController@delete')->name('delete');
     });
 

@@ -95,7 +95,6 @@ class ProductController extends Controller
         if (empty($product)) {
             return redirect()->route('admin.product.list');
         }
-
         $this->_data['categories'] = $this->categoriesList(Category::all());
         $product = $product->load('categories')->toArray();
         $category_id = [];
@@ -162,6 +161,7 @@ class ProductController extends Controller
         $comment->product_id = $id;
         $comment->content = $content;
         $comment->save();
+
         return redirect()->route('admin.product.detail', $id);
     }
 
