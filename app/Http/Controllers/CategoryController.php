@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Requests\EditCategoryRequest;
 use App\Models\Category;
+use App\Models\Product;
 use DataTables;
 
 class CategoryController extends Controller
@@ -93,5 +94,19 @@ class CategoryController extends Controller
         $check = $category->update($data);
 
         return redirect()->route('admin.category.list')->with('success', 'Sửa danh mục thành công!');
+    }
+
+    public function delete($id)
+    {
+        $category = Category::find($id);
+        $check = $category->delete();
+        $category->products()->detach();
+        if ($check) {
+            return redirect()->route('admin.category.list')
+                        ->with('success', 'Xoá thành công sản phẩm');
+        } else {
+            return redirect()->route('admin.category.list')
+                        ->with('error', 'Xoá KHÔNG thành công sản phẩm');
+        }
     }
 }

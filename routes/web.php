@@ -13,6 +13,10 @@
 Route::any('/ckfinder/examples/{example?}', 'CKSource\CKFinderBridge\Controller\CKFinderController@examplesAction')
     ->name('ckfinder_examples');
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    // ERROR
+    Route::get('error', function () {
+        return view('error.error');
+    })->name('error');
     // đăng nhập
     Route::get('login', 'Auth\LoginController@login')->name('login');
     Route::get('/', 'AdminController@index')->name('home');

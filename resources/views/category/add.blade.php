@@ -57,7 +57,10 @@ Edit Category
                                 // $flag = -1;
                             for ($i=0; $i < $item['step']; $i++) { $step .='----- ' ; } } 
                             @endphp 
-                            <option {{ ($item['parent_id'] == $category['id'] || $item['id'] == $category['id'] ) ? 'disabled' : '' }} {{ ($item['id'] == $category['parent_id']) ? 'selected' : '' }} value="{{ $item['id'] }}">
+                            <option @if (!empty($category))
+                                {{ ($item['parent_id'] == $category['id'] || $item['id'] == $category['id'] ) ? 'disabled' : '' }}
+                                {{ ($item['id'] == $category['parent_id']) ? 'selected' : '' }}
+                            @endif  value="{{ $item['id'] }}">
                                 {{ $step . $item['name'] }}</option>
                                 @php
                                     

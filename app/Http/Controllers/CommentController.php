@@ -11,7 +11,7 @@ class CommentController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth']);
     }
 
     public function index()
@@ -32,6 +32,7 @@ class CommentController extends Controller
     {
         $comment = Comment::find($id);
         $check = $comment->delete();
+
         if ($check) {
             return redirect()->route('admin.comment.list')->with('success', 'Xoá comment thành công!');
         } else {

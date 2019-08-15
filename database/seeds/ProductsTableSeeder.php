@@ -17,7 +17,7 @@ class ProductsTableSeeder extends Seeder
                     'name' => $faker->name,
                     'price' => $faker->numberBetween(100000, 500000),
                     'image' => 'https://i.imgur.com/c2f4JUB.png',
-                    'status' => $faker->numberBetween(1, 2),
+                    'status' => $faker->numberBetween(0, 1),
                     'description' => $faker->realText($maxNbChars = 200, $indexSize = 2),
                     'created_at' => $faker->dateTime($max = 'now', $timezone = null),
                ];

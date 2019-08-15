@@ -18,7 +18,7 @@ class ProductController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth']);
     }
 
     public function index()
@@ -50,7 +50,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $check = $product->delete();
-        $product->categories()->attach();
+        $product->categories()->detach();
         if ($check) {
             return redirect()->route('admin.product.list')
                         ->with('success', 'Xoá thành công sản phẩm');

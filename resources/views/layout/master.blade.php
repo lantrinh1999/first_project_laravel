@@ -5,6 +5,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html>
     @include('layout.header')
+    @yield('style')
 
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">

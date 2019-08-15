@@ -9,6 +9,21 @@ Edit user
 @endif
 @endsection
 {{-- {{ dd($user) }} --}}
+@section('style')
+<style>
+    .btn-toggle.btn-lg:before {
+        content: 'Khoá' !important ;
+        left: -5rem !i\mportant;
+    }
+
+    .btn-toggle.btn-lg:after {
+        content: 'Mở' !important;
+        right: -5rem;
+        opacity: 0.5;
+    }
+
+</style>
+@endsection
 
 
 
@@ -37,7 +52,9 @@ Edit user
                         <input id="name"
                             value="{{ (old('name')) ? old('name') : ( !empty($user['name']) ? $user['name'] : '' ) }}"
                             type="text" class="form-control name" name="name">
-                        <input type="hidden" name="id" value="{{ (!empty($user['id'])) ? $user['id'] : '' }}">
+                        @if (!empty($user))
+                            <input type="hidden" name="id" value="{{ (!empty($user['id'])) ? $user['id'] : '' }}">
+                        @endif
                         @error('name')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -53,18 +70,15 @@ Edit user
                     </div>
                     <div class="form-group">
                         <label for="password">password</label>
-                        <input id="password"
-                            value=""
-                            type="password" class="form-control password" name="password">
+                        <input id="password" value="" type="password" class="form-control password" name="password">
                         @error('password')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="password">Confirm password</label>
-                        <input id="confirm_password"
-                            value=""
-                            type="confirm_password" class="form-control confirm_password" name="confirm_password">
+                        <input id="confirm_password" value="" type="password"
+                            class="form-control confirm_password" name="confirm_password">
                         @error('confirm_password')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -72,14 +86,18 @@ Edit user
                     <div class="form-group">
                         <label for="">Trạng thái</label>
                         <button type="button"
-                            class="btn btn-lg btn-toggle {{ (old('status') == 1) ? 'active' : (( !empty($user['status']) && $user['status']  == 1) ? 'active' : 'focus' ) }} btn-status"
+                            class="btn btn-lg btn-toggle 
+                            {{ (old('is_active') == 1) ? 'active' : (( !empty($user['is_active']) && $user['is_active']  == 1) ? 'active' : 'focus' ) }}
+                             btn-status"
                             data-status="" data-toggle="button"
-                            aria-pressed="{{ (old('status') == 1) ? 'true' : (( !empty($user['status']) && $user['status'] == 1) ? 'true' : 'false' ) }}"
+                            aria-pressed="
+                            {{ (old('is_active') == 1) ? 'true' : (( !empty($user['is_active']) && $user['is_active'] == 1) ? 'true' : 'false' ) }}
+                            "
                             autocomplete="off">
                             <div class="handle"></div>
                         </button>
                     </div>
-                    <input type="hidden" name="status">
+                    <input type="hidden" name="is_active">
                     @error('status')
                     <div class="text-danger">{{ $message }}</div>
                     @enderror
@@ -98,78 +116,24 @@ Edit user
 @endsection
 <a href=""></a>
 
-@section('add-user')
-<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-<script>
-    CKEDITOR.replace('editor');
-
-</script>
-{{-- ******************************* --}}
-@if ((old('image')))
-<script>
-    $('img#this-img').show();
-
-</script>
-@else
-@if (!empty($user['image']))
-<script>
-    $('img#this-img').show();
-
-</script>
-@else
-<script>
-    $('img#this-img').hide();
-
-</script>
-@endif
-@endif
-<script>
-    var button1 = document.getElementById('choose_image');
-
-    button1.onclick = function () {
-        selectFileWithCKFinder('thumbnail');
-    };
-
-    function selectFileWithCKFinder(elementId, elementImg) {
-        CKFinder.popup({
-            chooseFiles: true,
-            width: 800,
-            height: 600,
-            onInit: function (finder) {
-                finder.on('files:choose', function (evt) {
-                    var file = evt.data.files.first();
-                    var output = document.getElementById(elementId);
-                    output.value = file.getUrl();
-                    $('img#this-img').show();
-                    $('img#this-img').attr('src', file.getUrl());
-                });
-
-                finder.on('file:choose:resizedImage', function (evt) {
-                    var output = document.getElementById(elementId);
-                    output.value = evt.data.resizedUrl;
-                });
-            }
-        });
-    }
-
-</script>
+@section('js')
 <script>
     $(document).ready(function () {
         var status = $('.btn-status').attr('aria-pressed');
         console.log(status);
         if (status == 'true') {
-            $('input[name=status]').val(1);
+            $('input[name=is_active]').val(1);
         } else {
-            $('input[name=status]').val(0);
+            $('input[name=is_active]').val(0);
         }
         $('.btn-status').click(function () {
             // alert('ok');
             var status = $(this).attr('aria-pressed');
             // alert(status);
             if (status == 'true') {
-                $('input[name=status]').val(0);
+                $('input[name=is_active]').val(0);
             } else {
-                $('input[name=status]').val(1);
+                $('input[name=is_active]').val(1);
             }
         })
     })

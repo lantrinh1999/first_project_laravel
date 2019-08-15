@@ -73,6 +73,20 @@
                     </li>
                 </ul>
             </li>
+            {{-- User --}}
+            <li class="treeview {{ Request::segment(2) == 'user' ? 'active' : '' }}">
+                <a href="">
+                <i class="fa fa-link"></i> <span>Người dùng</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class={{ (Request::segment(2) == 'user' && Request::segment(3) == 'list') ? 'active' : '' }}>
+                        <a href="{{ route('admin.user.list') }}">Danh sách Người dùng</a>
+                    </li>
+                </ul>
+            </li>
 
 
         </ul>

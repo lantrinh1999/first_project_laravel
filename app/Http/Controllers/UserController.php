@@ -2,11 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
+use App\Http\Requests\EditUserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\Comment;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    private $_data = [];
+
+    public function __construct()
+    {
+        $this->middleware(['auth', 'active.admin']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,72 +24,82 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+        $this->_data['users'] = $users;
+
+        return view('user.list', $this->_data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function add()
     {
-        //
+        return view('user.add');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function edit($id)
     {
-        //
+        $user = User::find($id);
+        $this->_data['user'] = $user;
+
+        return view('user.add', $this->_data);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
+    public function saveAdd(UserRequest $request)
     {
-        //
+        $data = $request->except('_token', 'confirm_password');
+        $data['password'] = bcrypt($data['password']);
+        $data['created_at'] = date('Y-m-d H:i:s', time());
+        // dd($data);
+        $check = User::insert($data);
+        if ($check) {
+            return redirect()->route('admin.user.list')
+                        ->with('success', 'Thêm thành công ');
+        } else {
+            return redirect()->route('admin.user.list')
+                        ->with('error', 'Thêm ko thành công');
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
+    public function saveEdit(EditUserRequest $request)
     {
-        //
+        $data = $request->except('_token', 'confirm_password');
+        if (empty($request->password)) {
+            $data = $request->except('password');
+        } else {
+            $data['password'] = bcrypt($data['password']);
+        }
+        $data['updated_at'] = date('Y-m-d H:i:s', time());
+        $id = $request->id;
+        $user = User::find($id);
+        $check = $user->update($data);
+
+        // dd($data);
+        if ($check) {
+            return redirect()->route('admin.user.list')
+                        ->with('success', 'Sửa thành công ');
+        } else {
+            return redirect()->route('admin.user.list')
+                        ->with('error', 'Sửa ko thành công');
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
+    public function delete($id)
     {
-        //
-    }
+        $current_uid = Auth::user()->id;
+        if ($current_uid != $id) {
+            $user = User::find($id);
+            $check = $user->delete();
+            if ($check) {
+                Comment::where('user_id', '=', $id)->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        //
+                return redirect()->route('admin.user.list')
+                        ->with('success', "Xoa' thành công người dùng ".$user->name);
+            } else {
+                return redirect()->route('admin.user.list')
+                        ->with('error', "Xoa' ko thành công");
+            }
+        } else {
+            return redirect()->route('admin.user.list')
+                        ->with('error', "Xoa' ko thành công");
+        }
     }
 }
