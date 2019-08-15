@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\EditCategoryRequest;
 use App\Models\Category;
 use DataTables;
 
@@ -79,5 +80,18 @@ class CategoryController extends Controller
         $this->_data['category'] = $category;
 
         return view('category.add', $this->_data);
+    }
+
+    public function saveEdit(EditCategoryRequest $request)
+    {
+        if (!empty($request)) {
+            $data = $request->except('_token');
+        }
+        $category = Category::find($request->id);
+        // dd($data);
+        // Product::find($data['id'])->categories()->sync($request->category_id);
+        $check = $category->update($data);
+
+        return redirect()->route('admin.category.list')->with('success', 'Sửa danh mục thành công!');
     }
 }

@@ -54,9 +54,14 @@ Edit Category
                             @php
                             $step = "";
                             if ($item['step'] > 0) {
-                            for ($i=0; $i < $item['step']; $i++) { $step .='----- ' ; } } @endphp 
-                            <option {{ ($item['parent_id'] == $category['id']) ? 'disabled' : '' }} {{ ($item['id'] == $category['parent_id']) ? 'selected' : '' }} value="{{ $item['id'] }}">
+                                // $flag = -1;
+                            for ($i=0; $i < $item['step']; $i++) { $step .='----- ' ; } } 
+                            @endphp 
+                            <option {{ ($item['parent_id'] == $category['id'] || $item['id'] == $category['id'] ) ? 'disabled' : '' }} {{ ($item['id'] == $category['parent_id']) ? 'selected' : '' }} value="{{ $item['id'] }}">
                                 {{ $step . $item['name'] }}</option>
+                                @php
+                                    
+                                @endphp
                                 @endforeach
                         </select>
                         @error('parent_id')

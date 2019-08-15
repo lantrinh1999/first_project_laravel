@@ -50,7 +50,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $check = $product->delete();
-        $product->categories()->detach();
+        $product->categories()->attach();
         if ($check) {
             return redirect()->route('admin.product.list')
                         ->with('success', 'Xoá thành công sản phẩm');
