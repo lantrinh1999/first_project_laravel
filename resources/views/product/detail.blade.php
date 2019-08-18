@@ -25,12 +25,12 @@ Product detail
     </div>
     <div class="box-body">
         <div class="row">
-            <div class="col-sm-5 col-xs-5">
+            <div class="col-sm-3 col-xs-3">
                 <div class="img-responsive img-bordered">
                      <img width="100%" src="{{ ($product['image']) ? $product['image'] : 'https://x.kinja-static.com/assets/images/logos/placeholders/default.png' }}" alt="">
                 </div>
             </div>
-            <div class="col-sm-7 col-xs-7">
+            <div class="col-sm-8 col-xs-8">
                 <div class="card card-group">
                     <div class="card-body">
                         <div>
@@ -55,7 +55,7 @@ Product detail
     </div>
 </div>
 
-<div class="box box-primary collapsed-box">
+<div class="box box-primary">
     <div class="box-header">
         <h3 class="box-title border-bottom">
             Comments
@@ -91,18 +91,60 @@ Product detail
                 @if (!empty($comments))
                     @foreach ($comments as $key => $item)
                         <div class="row">
-                    <div class="col-sm-2 col-xs-4">
+                    <div class="col-xs-2 col-sm-2">
                         <div class="img-responsive img-bordered">
                             <img width="100%" src="https://alumni.crg.eu/sites/default/files/default_images/default-picture_0_0.png" alt="">
                         </div>
                     </div>
-                    <div class="col-sm-8 col-xs-8 border-bottom border">
+                    <div class="col-xs-10 col-sm-10 border-bottom border">
                         <div><h4>{{ $item->name }}</h4></div>
                         <div>{{ $item->content }}</div>
+                        @if (Auth::user()->id == $item->user_id)
+                        <br>
+                            <div>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal{{$key}}">
+                                Sửa
+                            </button>
+                                <a url="{{route('admin.product.delete_comment',[ 'comment_id' => $item->id,'product' => $product['id']] )}}" href="javascript:;"
+                                class="btn btn-danger btn-sm btn-remove" ">Xóa</a>
+                        
+                        </div>
+                        @endif
+                        
                     </div>
                     <div class="col-sm-12">
                         <hr> 
                     </div>
+                    <div class="modal fade" id="exampleModal{{$key}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Sửa bình luận</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                 <form action="{{route('admin.product.edit_comment')}}" method="POST">
+                                    {{ csrf_field() }}
+                                    <div class="modal-body">
+                                    <input type="hidden" name="id" value="{{$item->id}}">
+                                    <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                                    <input type="hidden" name="product_id" value="{{$product['id']}}">
+                                    <input type="text" name="content" class="form-control" value="{{$item->content}}">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <input type="submit" class="btn btn-primary" value="Edit">
+                                    </div>
+                                 </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
                 </div>
                     @endforeach
                 @endif

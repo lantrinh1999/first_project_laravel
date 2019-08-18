@@ -72,7 +72,7 @@ List user
                             <td>{{$item['created_at']}}</td>
                             <td>
                             <a class="btn btn-warning btn-xs" href="{{ route('admin.user.edit', $item['id']) }}">Edit</a>
-                            <a url="{{ route('admin.user.delete', $item['id']) }}" class="btn btn-danger btn-xs btn-remove" href="javascript:;">Delete</a>
+                            <a {{Auth::user()->id == $item['id'] ? 'disabled' : ''}} url="{{ route('admin.user.delete', $item['id']) }}" class="btn btn-danger btn-xs {{Auth::user()->id != $item['id'] ? 'btn-remove' : ''}} " href="javascript:;">Delete</a>
                             </td>
                             </tr>
                         @endforeach

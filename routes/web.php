@@ -23,8 +23,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('logout', 'Auth\LoginController@logout')->name('logout');
     Route::post('postLogin', 'Auth\LoginController@postLogin')->name('postLogin');
     // Đăng kí
-    Route::get('signup', 'AdminController@signup')->name('signup');
-    Route::post('postSignup', 'AdminController@postSignup')->name('postSignup');
+    Route::get('signup', 'Auth\LoginController@signup')->name('signup');
+    Route::post('postSignup', 'Auth\LoginController@postSignup')->name('postSignup');
     // Home
     Route::get('home', 'AdminController@index')->name('home');
 
@@ -43,6 +43,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::any('postComment', 'ProductController@postComment')->name('postComment');
         // del
         Route::get('delete/{id}', 'ProductController@delete')->name('delete');
+
+        Route::get('delete_comment/{id}/{product_id}', 'ProductController@delete_comment')->name('delete_comment');
+        Route::post('edit_comment', 'ProductController@edit_comment')->name('edit_comment');
     });
 
     // danh mục

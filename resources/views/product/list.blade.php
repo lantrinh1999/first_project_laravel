@@ -53,8 +53,9 @@ List Product
                         <th>ID</th>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>status</th>
                         <th>Category</th>
-                        <th>Created at</th>
+                        {{-- <th>Created at</th> --}}
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -96,8 +97,13 @@ $(function() {
             { data: 'id', name: 'id' },
             { data: 'name', name: 'name' },
             { data: 'price', name: 'price' },
+            {data: null,
+                render: function ( data, type, row ) {
+                    
+                return (data.status == 1) ? 'còn' : 'hết';
+                } },
             { data: 'listcategories', name: 'listcategories' },
-            { data: 'created_at', name: 'created_at' },
+            // { data: 'created_at', name: 'created_at' },
             {data: null,
       render: function ( data, type, row ) {
           

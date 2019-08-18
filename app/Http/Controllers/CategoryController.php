@@ -19,12 +19,20 @@ class CategoryController extends Controller
 
     public function index()
     {
+        // $a = array_column(Category::select('name')->where('name', 'not like', '%'.trim('Jermain Johnson').'%')->get()->toArray(), 'name');
+        // dd($a);
+
         return view('category.list');
     }
 
     public function listCategries()
     {
-        $c = $this->categoriesList(Category::all());
+        $ac = Category::all();
+        if (!empty($ac) || count($ac) > 0) {
+            $c = $this->categoriesList($ac);
+        } else {
+            $c = [];
+        }
 
         return DataTables::of($c)->make(true);
     }
@@ -102,6 +110,8 @@ class CategoryController extends Controller
         $check = $category->delete();
         $category->products()->detach();
         if ($check) {
+            Category::where('parent_id', $id)->update(['parent_id' => 0]);
+
             return redirect()->route('admin.category.list')
                         ->with('success', 'Xoá thành công sản phẩm');
         } else {

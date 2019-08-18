@@ -56,7 +56,7 @@ List category
                         <th>ID</th>
                         <th>Name</th>
                         <th>Parent</th>
-                        <th>Created at</th>
+                        {{-- <th>Created at</th> --}}
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -108,7 +108,7 @@ $(function() {
                 return `<span>`+(data.parent_name != null ? step + data.parent_name : '')+`</span>`;
                 } 
             },
-            { data: 'created_at', name: 'created_at' },
+            // { data: 'created_at', name: 'created_at' },
             {data: null, render: function ( data, type, row ) {
                 return `
                 <a class="btn btn-xs btn-warning" value=`+data.id+` href="/admin/category/edit/${data.id}">Edit</a>

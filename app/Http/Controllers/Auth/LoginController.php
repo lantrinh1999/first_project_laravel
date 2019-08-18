@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegistryRequest;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -63,5 +65,19 @@ class LoginController extends Controller
         if ($check == true) {
             return redirect()->route('admin.home')->with('success', 'Đăng nhập thành công');
         }
+    }
+
+    public function signup()
+    {
+        return view('signup');
+    }
+
+    public function postSignup(RegistryRequest $request)
+    {
+        $data = $request->except('_token', 'confirm_password');
+        $data['password'] = bcrypt($request->password);
+        User::insert($data);
+
+        return redirect('admin/login')->with('success', 'Đăng kí thành công');
     }
 }

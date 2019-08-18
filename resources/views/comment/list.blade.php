@@ -53,7 +53,7 @@ List comment
                         <th>User</th>
                         <th>Product</th>
                         <th>Content</th>
-                        <th>Created at</th>
+                        {{-- <th>Created at</th> --}}
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -65,7 +65,7 @@ List comment
                         <td>{{ $item->user_name }}</td>
                         <td>{{ $item->product_name }}</td>
                         <td>{{ $item->content }}</td>
-                        <td>{{ $item->created_at }}</td>
+                        {{-- <td>{{ $item->created_at }}</td> --}}
                         <td>
                             <a url="{{ route('admin.comment.delete', $item->comment_id) }}" class="btn btn-danger btn-xs btn-remove" href="javascript:;">Delete</a>
                         </td>

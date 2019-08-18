@@ -29,12 +29,7 @@ class EditUserRequest extends FormRequest
             'email' => [
                 'required',
                 'email',
-                function ($attribute, $value, $fail) {
-                    $a = array_column(User::select('email')->where('email', '!=', $value)->get()->toArray(), 'email');
-                    if (in_array($value, $a)) {
-                        $fail('Email Đã tồn tại!');
-                    }
-                },
+                'unique:users,email'.$this->id,
             ],
             'password' => 'nullable|min:6|max:32',
             'confirm_password' => 'nullable|same:password',
@@ -46,6 +41,7 @@ class EditUserRequest extends FormRequest
         return [
             'name.required' => 'Yêu cầu nhập tên',
             'email.required' => 'Yêu Cầu nhập email',
+            'email.unique' => 'Email đã tồn tại',
             'password.required' => 'Yêu cầu mật khẩu',
             'confirm_password.required' => 'Yêu cầu chọn trạng thái',
             'name.min' => 'Tên ít nhất 2 kí tự',

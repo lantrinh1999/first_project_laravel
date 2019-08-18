@@ -138,7 +138,7 @@ class ProductController extends Controller
         $this->_data['categories'] = $this->categoriesList(Category::all());
         // $product = $product->load('comments')->toArray();
         $comments = DB::table('products')
-        ->select('comments.product_id', 'comments.user_id', 'comments.id as comment_id', 'users.name', 'comments.content', 'comments.created_at')
+        ->select('comments.product_id', 'comments.user_id', 'comments.id as id', 'users.name', 'comments.content', 'comments.created_at')
         ->join('comments', 'products.id', '=', 'comments.product_id')
         ->join('users', 'comments.user_id', '=', 'users.id')
         ->where('products.id', $id)->get();
@@ -181,5 +181,26 @@ class ProductController extends Controller
         }
 
         return $this->_data['categoriesDataTable'];
+    }
+
+    public function delete_comment($id, $product_id)
+    {
+        $comment = Comment::find($id);
+
+        $comment->delete();
+
+        return redirect('admin/product/detail/'.$product_id)->with('success', 'Xóa thành công');
+    }
+
+    public function edit_comment(CommentRequest $request)
+    {
+        // dd($request->all());
+        $data = $request->except('_token', 'product_id', 'user_id');
+        $comment = Comment::where('id', '=', $request->id)->first();
+        $data['created_at'] = date('Y-m-d H:i:s', time());
+        $comment->update($data);
+        // Comment::update($data);
+
+        return redirect('admin/product/detail/'.$request->product_id)->with('success', 'Sửa thành công');
     }
 }

@@ -23,7 +23,6 @@ class CheckActiveAdmin
         if ($user->is_active == 0) {
             // Neu khong quay ve man login
             // return abort(403, 'Khong co quyen!');
-
             return redirect()->route('admin.error')->with('error', '403 Forbidden');
         }
         // 3. Tiep tuc chuyen huong

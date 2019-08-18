@@ -24,7 +24,10 @@ class EditCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name' => [
+                'required',
+                'unique:categories,name,'.$this->id,
+            ],
         ];
     }
 
@@ -32,7 +35,7 @@ class EditCategoryRequest extends FormRequest
     {
         return [
             'name.required' => 'Yêu cầu nhập tên',
-            // 'name.unique' => 'Đã tồn tại, mời nhập tên khác',
+            'name.unique' => 'Đã tồn tại, mời nhập tên khác'
         ];
     }
 }

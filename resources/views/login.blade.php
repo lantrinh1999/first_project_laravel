@@ -47,6 +47,11 @@
             <!-- /.login-logo -->
             <div class="login-box-body">
                 <p class="login-box-msg">Đăng nhập</p>
+                <p class="login-box-msg">
+                    @if (session('success'))
+                <b style="color: green">{{session('success')}}</b>
+                    @endif
+                </p>
 
                 <form action="{{ route('admin.postLogin') }}" method="post">
                     {{ @csrf_field() }}
